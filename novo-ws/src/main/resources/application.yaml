@@ -1,0 +1,20 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /baseServices
+---
+logging:
+  #pattern:
+  #console: %d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%nTT
+  level:
+    root: DEBUG
+---
+springdoc:
+  springdoc:
+    packagesToScan: com.base.controller
+  api-docs:
+    path: /openapi
+  swagger-ui:
+    path: /swagger-ui
+    enabled: true
+    disable-swagger-default-url: true

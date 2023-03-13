@@ -1,0 +1,37 @@
+dependencies {
+    api project(":novo-client")
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Data
+    implementation 'org.springframework.data:spring-data-jpa'
+
+    // Configuration
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+
+    // DB
+    implementation 'org.postgresql:postgresql'
+    implementation group: 'com.oracle.database.jdbc', name: 'ojdbc11'
+
+
+    // crypto
+    implementation 'org.springframework.security:spring-security-crypto'
+    implementation 'org.bouncycastle:bcprov-debug-jdk15to18'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'commons-io:commons-io'
+
+    implementation group: 'org.hibernate', name: 'hibernate-core'
+    implementation group: 'org.hibernate', name: 'hibernate-entitymanager'
+
+    compile group: 'com.querydsl', name: 'querydsl-sql-codegen'
+    compile group: 'com.querydsl', name: 'querydsl-sql-spring'
+
+    // Test
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}

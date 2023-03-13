@@ -1,0 +1,56 @@
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+      hibernate: ERROR
+---
+server:
+  port: 8080
+  servlet:
+    context-path: /baseServices
+---
+keycloak:
+  enabled: true
+  bearer-only: true
+  auth-server-url: http://localhost:8080/auth
+  resource: BASE-WS
+  realm: CFAVORITA-SSO-INTRANET
+  public-client: true
+  principal-attribute: preferred_username
+  # credentials:
+  # secret: 123
+  use-resource-role-mappings: false
+  allowAnyHostname: true
+  ssl-required: external
+---
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.40.24:1521/bdd1.ecuasanitas.com
+    username: NOVO
+    password: NOVO
+    hikari:
+      connectionTimeout: 60000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      maximumPoolSize: 20
+      #connectionTestQuery: CALL NOW()
+  jpa:
+    showSql: true
+    properties:
+      format_sql: false
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle10gDialect
+        #        dialect: org.hibernate.dialect.PostgreSQLDialect
+        #        dialect: org.hibernate.dialect.MariaDB103Dialect
+        id:
+          batch_versioned_data: true
+          new_generator_mappings: false # true for increment by 50 or (allocationSize property in mapping), false for increment one by one
+        jdbc:
+          batch_size: 50
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false

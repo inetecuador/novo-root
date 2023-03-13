@@ -1,0 +1,45 @@
+apply plugin: "org.springframework.boot"
+springBoot {
+    buildInfo ()
+}
+dependencies {
+    api project(":novo-core")
+    api project(":novo-vo")
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Validator
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+
+    // Loggin
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+    // Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Data
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt'
+
+    // Documentation API
+    implementation 'org.springdoc:springdoc-openapi-ui'
+
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'commons-beanutils:commons-beanutils'
+    implementation 'org.keycloak:keycloak-spring-boot-starter'
+
+    //Para generar war
+    //providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    //providedRuntime group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core'
+
+}
+
+bootRun {
+    main = 'com.base.BaseApplication'
+}

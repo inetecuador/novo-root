@@ -1,0 +1,61 @@
+ext {
+    baseVersion = '1.0.0-SNAPSHOT'
+}
+
+buildscript {
+    ext.repos = {
+        mavenCentral()
+        maven {
+            url "https://mvnrepository.com/"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    repositories repos
+    apply from: "./plugins.gradle"
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootPluginVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:${dependenciesManagementPluginVersion}"
+        classpath "net.ltgt.gradle:gradle-apt-plugin:${gradleAptPluginVersion}"
+    }
+}
+
+subprojects {
+    apply plugin: "war"
+    apply plugin: "java"
+    apply plugin: "java-library"
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "pmd"
+
+    compileJava {
+        options.encoding = 'UTF-8'
+        options.compilerArgs << '-parameters'
+        sourceCompatibility = '11'
+    }
+
+    compileTestJava {
+        options.encoding = 'UTF-8'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    repositories repos
+
+    dependencyManagement {
+        apply from: project.rootDir.toString() + '/dependencies.gradle'
+    }
+    /*pmd {
+        rulePriority = 5
+        sourceSets = [sourceSets.main]
+    }*/
+}
+
+allprojects {
+    group = "com.base"
+    version = "${baseVersion}"
+}

@@ -1,0 +1,39 @@
+apply plugin: 'net.ltgt.apt'
+apply plugin: 'net.ltgt.apt-idea'
+apply plugin: 'net.ltgt.apt-eclipse'
+
+//eclipse
+/*sourceSets {
+    generated {
+        java {
+            srcDir "$buildDir/generated/sources/annotationProcessor/java/main"
+            srcDir "$buildDir/generated/sources/annotationProcessor/java/test"
+        }
+    }
+}*/
+
+dependencies {
+    api project(":novo-vo")
+    implementation 'org.springframework.data:spring-data-jpa'
+    compile 'com.querydsl:querydsl-core'
+    compile 'com.querydsl:querydsl-jpa'
+    compile 'javax.persistence:javax.persistence-api'
+    compile 'javax.annotation:javax.annotation-api'
+    compile 'javax.validation:validation-api'
+    compileOnly 'org.projectlombok:lombok'
+
+    annotationProcessor(
+            "com.querydsl:querydsl-apt:${querydslVersion}:general",
+            "com.querydsl:querydsl-apt:${querydslVersion}:jpa",
+            'javax.persistence:javax.persistence-api',
+            'javax.annotation:javax.annotation-api',
+            'org.projectlombok:lombok'
+    )
+
+    compile 'org.springframework.data:spring-data-commons'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.hibernate:hibernate-annotations'
+    implementation 'commons-beanutils:commons-beanutils'
+
+
+}
