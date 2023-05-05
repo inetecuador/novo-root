@@ -36,11 +36,12 @@ public class BaseApplication implements WebMvcConfigurer {
      * ObjectMapper.
      *
      * @return ObjectMapper
-     * @author vsangucho on 01/07/2021
+     * @author vsangucho on 27/03/2023
      */
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 

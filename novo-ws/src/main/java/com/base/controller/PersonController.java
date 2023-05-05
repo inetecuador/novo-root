@@ -57,4 +57,5 @@ public class PersonController {
     public ResponseEntity<BaseResponseVo> getAll() {
         return ResponseEntity.ok(BaseResponseVo.builder().data(this.service.list()).build());
     }
+
 }

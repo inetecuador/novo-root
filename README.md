@@ -1,0 +1,2 @@
+Variable de ambiente
+SPRING_PROFILES_ACTIVE =CONSOLA

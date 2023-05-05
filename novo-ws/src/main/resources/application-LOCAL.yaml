@@ -10,9 +10,16 @@ server:
 keycloak:
   enabled: true
   bearer-only: true
-  auth-server-url: http://localhost:8080/authDev
-  resource: BASE-WS
-  realm: CFAVORITA-SSO-INTRANET
+  auth-server-url: http://192.168.40.151:8080/auth
+  #desarrollo
+  #auth-server-url: http://192.168.40.151:8080/auth
+
+  #resource: e-voucher-client-core
+  #resource: BASE-WEB
+  resource: farmaenlace-ws
+  #realm: luca-realm
+  #realm: SSO-NOVO
+  realm: xtn
   public-client: true
   principal-attribute: preferred_username
   # credentials:
@@ -20,6 +27,8 @@ keycloak:
   use-resource-role-mappings: false
   allowAnyHostname: true
   ssl-required: external
+  realm-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsKLLU93WgIHHz0iR/RCO68BFO9BUVqA2gLCIT8cnefOazaS1WlZdtPVE7oEUCzZsWMd/cJlWh8aVteSvOX1G7rwxnABv4jQZf1DZ8x6zY4CGhj8rhkDLyFJXLwRkUIdJ8QsY0w9zBkR9wHZwOgeHxkUzod+dhymkDI9LVu8y8bSMokCD82yiOYMiBjTLyCioNiwc3IdljCxa+l2gMGDhCe7bHKVvwVec5bN1fVU/CNR3Gh15zi1e3NKyEMNkaDspGxpHgIRHF+WBqgKVxoTfquwmAcC6D/Pnc9V2ldOk5O3n1TriDq+2zPDIp9XeLI3GQ789ia1ntNIwguls6iLlgwIDAQAB
+
 ---
 spring:
   datasource:

@@ -66,6 +66,10 @@ dependencyManagement {
 
         dependency("io.jsonwebtoken:jjwt:0.9.1")
         dependency("com.fasterxml.jackson.core:jackson-core:2.12.3")
+        dependency("com.fasterxml.jackson.core:jackson-annotations:2.12.3")
+
+
+
         dependency("org.keycloak:keycloak-spring-boot-starter:${keycloakVersion}")
         dependency("org.hibernate:hibernate-core:5.4.9.Final")
         dependency("org.hibernate:hibernate-entitymanager:5.4.9.Final")

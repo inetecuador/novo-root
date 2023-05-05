@@ -1,0 +1,3 @@
+<jboss-web>
+	<context-root>baseServices</context-root>
+</jboss-web>
