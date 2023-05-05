@@ -71,8 +71,8 @@ public class BaseApplication implements WebMvcConfigurer {
                 .version("1.0.0")
                 .contact(new Contact()
                     .name("Azul Blue")
-                    .email("lex.max2010@gmail.com")
-                    .url("lex.max2010@gmail.com"))
+                    .email("vs@gmail.com")
+                    .url("vs@gmail.com"))
                 .license(new License()
                     .name("Apache 2.0")
                     .url("http://www.apache.org/licenses/LICENSE-2.0.html")));
