@@ -78,5 +78,12 @@ public class AfiliadoPrexistenciaDTO {
     @JsonProperty("Maternidad")
     private Boolean maternidad;
 
+    @JsonProperty("TieneImpedimento")
+    private Boolean tieneImpedimento;
+
+    @JsonProperty("MotivoImpedimento")
+    private String motivoImpedimento;
+
+    @JsonProperty("numeroFamilia")
     private Integer numeroFamilia;
 }

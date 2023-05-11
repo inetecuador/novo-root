@@ -56,7 +56,9 @@ public class AfiliadoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
                 // 11AFILIACION.FECHACAPTURA < AFILIACION.FECHAINGRESO THEN AFILIACION.FECHACAPTURA AS FECHAINCLUSION
                 + "	TO_CHAR(CASE WHEN AFILIACION.FECHACAPTURA < AFILIACION.FECHAINGRESO THEN AFILIACION.FECHACAPTURA ELSE AFILIACION.FECHAINGRESO END,'dd/MM/yyyy') AS FECHAINCLUSION,"
                 // 12AFILIACION.NUMEROFAMILIA
-                + "	AFILIACION.NUMEROFAMILIA"
+                + "	AFILIACION.NUMEROFAMILIA,"
+                // 13FN_VALIDACONTRATO
+                + " FN_VALIDACONTRATO(:numContrato, AFILIACION.NUMEROFAMILIA, AFILIACION.NUMERO) AS VALIDACONTRATO"
                 + " FROM CONTRATO"
                 + " INNER JOIN PLANCONTRATO ON PLANCONTRATO.CONTRATO_ID = CONTRATO.ID"
                 + " INNER JOIN PLANSALUD ON PLANCONTRATO.PLANESPECIFICO_ID = PLANSALUD.ID"
@@ -144,8 +146,13 @@ public class AfiliadoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
             afiliadoPrexistenciaDTO.setDeducibleCubierto(new BigDecimal(0));
             // 12AFILIACION.NUMEROFAMILIA
             afiliadoPrexistenciaDTO.setNumeroFamilia(Integer.parseInt(afiliadoResults[12].toString().trim()));
-            // (Integer numContrato, Integer numFamilia, Integer
-            // numeroUsuario
+
+            afiliadoPrexistenciaDTO.setMotivoImpedimento(afiliadoResults[13].toString().trim());
+            afiliadoPrexistenciaDTO.setTieneImpedimento("SERVICIO".equals(afiliadoResults[13].toString().trim()));
+
+            afiliadoPrexistenciaDTO.setMotivoImpedimento(afiliadoResults[13].toString().trim());
+            afiliadoPrexistenciaDTO.setMotivoImpedimento(afiliadoResults[13].toString().trim());
+            // (Integer numContrato, Integer numFamilia, Integer, numeroUsuario
             afiliadoPrexistenciaDTO.setEnCarencia(this.enCarenciaBnf(numeroContrato, afiliadoPrexistenciaDTO.getNumeroFamilia(), afiliadoPrexistenciaDTO.getNumeroAfiliado()));
 
             afiliadoPrexistenciaDTO.setEnCarenciaHospitalaria(afiliadoPrexistenciaDTO.getEnCarencia());

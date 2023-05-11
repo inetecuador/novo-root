@@ -64,12 +64,6 @@ public class ContratoTitularDTO {
     @JsonProperty("DeducibleTotal")
     private BigDecimal deducibleTotal;
 
-    @JsonProperty("TieneImpedimento")
-    private Boolean tieneImpedimento;
-
-    @JsonProperty("MotivoImpedimento")
-    private String motivoImpedimento;
-
     @JsonProperty("EsMoroso")
     private Boolean esMoroso;
 
