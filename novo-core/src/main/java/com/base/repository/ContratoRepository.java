@@ -1,11 +1,11 @@
 package com.base.repository;
 
 import com.base.common.JPAQueryDslBaseRepository;
+import com.base.entity.PersonEntity;
 import com.base.vo.ContratoTitularDTO;
 import com.base.vo.TitularDTO;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
-import com.base.entity.PersonEntity;
 
 import javax.persistence.Query;
 import java.math.BigDecimal;

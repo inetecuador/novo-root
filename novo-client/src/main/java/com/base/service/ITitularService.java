@@ -2,10 +2,7 @@ package com.base.service;
 
 import com.base.common.IBaseService;
 import com.base.entity.PersonEntity;
-import com.base.vo.ContratoTitularDTO;
 import com.base.vo.TitularDTO;
-
-import java.util.List;
 
 /**
  * Person services specification.

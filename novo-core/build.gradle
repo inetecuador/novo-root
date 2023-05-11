@@ -11,8 +11,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
 
     // DB
-    implementation 'org.postgresql:postgresql'
-    implementation group: 'com.oracle.database.jdbc', name: 'ojdbc11'
+    runtimeOnly group: 'com.oracle.database.jdbc', name: 'ojdbc8'
 
 
     // crypto

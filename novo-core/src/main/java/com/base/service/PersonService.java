@@ -1,6 +1,5 @@
 package com.base.service;
 
-import java.util.List;
 import com.base.common.BaseService;
 import com.base.entity.PersonEntity;
 import com.base.repository.IPersonRepository;
@@ -9,6 +8,8 @@ import com.base.vo.PersonVo;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * PersonService.

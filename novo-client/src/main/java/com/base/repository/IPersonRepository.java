@@ -1,9 +1,10 @@
 package com.base.repository;
 
-import java.util.List;
 import com.base.common.IQueryDslBaseRepository;
 import com.base.entity.PersonEntity;
 import com.base.vo.PersonVo;
+
+import java.util.List;
 
 /**
  * Person repository specification.

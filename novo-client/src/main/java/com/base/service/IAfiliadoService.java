@@ -1,7 +1,6 @@
 package com.base.service;
 
 import com.base.vo.AfiliadoPrexistenciaDTO;
-import com.base.vo.BeneficiarioDTO;
 
 import java.util.List;
 

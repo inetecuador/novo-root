@@ -1,12 +1,5 @@
 package com.base.repository;
 
-import static com.base.entity.QPersonEntity.personEntity;
-import static com.querydsl.core.types.Projections.bean;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import com.base.common.JPAQueryDslBaseRepository;
 import com.base.entity.PersonEntity;
 import com.base.vo.PersonVo;
@@ -17,6 +10,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.base.entity.QPersonEntity.personEntity;
 
 /**
  * PersonRepository.

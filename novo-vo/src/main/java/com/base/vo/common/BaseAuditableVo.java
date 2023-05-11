@@ -1,10 +1,11 @@
 package com.base.vo.common;
 
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.Date;
 
 /**
  * BaseAuditableVO.

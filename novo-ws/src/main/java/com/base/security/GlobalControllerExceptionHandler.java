@@ -1,11 +1,6 @@
 package com.base.security;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 import com.base.vo.common.BaseResponseVo;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,13 +8,18 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * GlobalControllerExceptionHandler.
  *
  * @author vsangucho on 10/03/2023
  * @version 1.0
  */
-@Slf4j
+
 @RestControllerAdvice
 public class GlobalControllerExceptionHandler {
 
@@ -38,7 +38,7 @@ public class GlobalControllerExceptionHandler {
         for (FieldError error : exception.getBindingResult().getFieldErrors()) {
             errors.add(error.getField().concat(": ").concat(error.getDefaultMessage()));
         }
-        log.error("Error handler {}:{}", exception.getMessage(), exception);
+        //log.error("Error handler {}:{}", exception.getMessage(), exception);
         return buildResponse(errors, HttpStatus.BAD_REQUEST);
     }
 
@@ -53,7 +53,7 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<BaseResponseVo> handleMethodException(
         HttpServletRequest request, Exception exception) {
-        log.error("Error handler {}:{}", exception.getMessage(), exception);
+        //log.error("Error handler {}:{}", exception.getMessage(), exception);
         return buildResponse(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -83,7 +83,7 @@ public class GlobalControllerExceptionHandler {
     protected ResponseEntity<BaseResponseVo> handleConstraintViolation(
         HttpServletRequest request,
         ConstraintViolationException exception) {
-        log.error("Error handler {}:{}", exception.getMessage(), exception);
+        //log.error("Error handler {}:{}", exception.getMessage(), exception);
         return buildResponse(null, HttpStatus.BAD_REQUEST);
     }
 }

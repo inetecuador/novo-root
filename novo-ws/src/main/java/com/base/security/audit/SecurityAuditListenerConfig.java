@@ -1,21 +1,18 @@
 package com.base.security.audit;
 
-import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.persistence.EntityManagerFactory;
 import com.base.common.AbstractBaseAuditable;
 import com.base.util.DateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.event.service.spi.EventListenerRegistry;
-import org.hibernate.event.spi.EventType;
-import org.hibernate.event.spi.PersistEvent;
-import org.hibernate.event.spi.PersistEventListener;
-import org.hibernate.event.spi.PreInsertEvent;
-import org.hibernate.event.spi.PreInsertEventListener;
+import org.hibernate.event.spi.*;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.persistence.EntityManagerFactory;
+import java.util.Map;
 
 /**
  * SecurityAuditListenerConfig.

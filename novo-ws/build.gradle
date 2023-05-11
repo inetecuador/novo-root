@@ -1,4 +1,16 @@
 apply plugin: "org.springframework.boot"
+
+configurations.all { configuration ->
+    configuration.incoming.beforeResolve { resolvableDependencies ->
+        resolvableDependencies.dependencies.each { dependency ->
+            dependency.exclude group: "org.apache.logging.log4j", module: "log4j-api"
+            dependency.exclude group: "org.slf4j", module: "slf4j-log4j12"
+            dependency.exclude group: "org.slf4j", module: "slf4j-api"
+            dependency.exclude group: "ch.qos.logback", module: "logback-classic"
+        }
+    }
+}
+
 springBoot {
     buildInfo ()
 }
@@ -8,6 +20,9 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation('org.hibernate.validator:hibernate-validator')
+    implementation('org.hibernate:hibernate-entitymanager')
 
     // Validator
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -35,8 +50,10 @@ dependencies {
     implementation 'org.keycloak:keycloak-spring-boot-starter'
 
     //Para generar war
-    //providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-    //providedRuntime group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core'
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    providedRuntime group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+
 
 }
 

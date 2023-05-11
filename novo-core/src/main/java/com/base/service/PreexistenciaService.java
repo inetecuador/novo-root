@@ -2,7 +2,6 @@ package com.base.service;
 
 import com.base.common.BaseService;
 import com.base.entity.PersonEntity;
-import com.base.repository.IContratoRepository;
 import com.base.repository.IPreexistenciaRepository;
 import com.base.vo.PreexistenciaDTO;
 import org.springframework.context.annotation.Lazy;

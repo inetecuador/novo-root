@@ -1,9 +1,10 @@
 package com.base.util;
 
-import java.lang.reflect.InvocationTargetException;
 import com.base.exception.BaseRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * ProjectUtil.

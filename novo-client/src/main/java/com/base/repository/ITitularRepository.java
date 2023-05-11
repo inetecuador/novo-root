@@ -2,10 +2,7 @@ package com.base.repository;
 
 import com.base.common.IQueryDslBaseRepository;
 import com.base.entity.PersonEntity;
-import com.base.vo.ContratoTitularDTO;
 import com.base.vo.TitularDTO;
-
-import java.util.List;
 
 /**
  * Titular repository specification.

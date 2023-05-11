@@ -1,6 +1,5 @@
 package com.base;
 
-import java.util.Arrays;
 import com.base.config.BaseConfiguration;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -13,10 +12,13 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Arrays;
 
 /**
  * BaseApplication.
@@ -26,7 +28,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @SpringBootApplication(scanBasePackages = {"com.base"})
 @Import({BaseConfiguration.class})
-public class BaseApplication implements WebMvcConfigurer {
+public class BaseApplication extends SpringBootServletInitializer implements WebMvcConfigurer {
 
     public static void main(String[] args) {
         SpringApplication.run(BaseApplication.class);
@@ -42,7 +44,7 @@ public class BaseApplication implements WebMvcConfigurer {
     public ObjectMapper objectMapper() {
         return new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     /**
@@ -51,7 +53,7 @@ public class BaseApplication implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins("*")
-            .allowedMethods("GET", "POST", "PUT", "DELETE");
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 
     /**
@@ -62,19 +64,19 @@ public class BaseApplication implements WebMvcConfigurer {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-            .security(Arrays.asList(new SecurityRequirement().addList("bearerAuth")))
-            .components(new Components().addSecuritySchemes("bearerAuth",
-                new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer")
-                    .bearerFormat("JWT")))
-            .info(new io.swagger.v3.oas.models.info.Info().title("REST API Documentation")
-                .description("REST API Documentation for services")
-                .version("1.0.0")
-                .contact(new Contact()
-                    .name("Azul Blue")
-                    .email("vs@gmail.com")
-                    .url("vs@gmail.com"))
-                .license(new License()
-                    .name("Apache 2.0")
-                    .url("http://www.apache.org/licenses/LICENSE-2.0.html")));
+                .security(Arrays.asList(new SecurityRequirement().addList("bearerAuth")))
+                .components(new Components().addSecuritySchemes("bearerAuth",
+                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer")
+                                .bearerFormat("JWT")))
+                .info(new io.swagger.v3.oas.models.info.Info().title("REST API Documentation")
+                        .description("REST API Documentation for services")
+                        .version("1.0.0")
+                        .contact(new Contact()
+                                .name("Azul Blue")
+                                .email("vs@gmail.com")
+                                .url("vs@gmail.com"))
+                        .license(new License()
+                                .name("Apache 2.0")
+                                .url("http://www.apache.org/licenses/LICENSE-2.0.html")));
     }
 }

@@ -1,6 +1,5 @@
 package com.base.common;
 
-import java.util.Date;
 import com.base.security.audit.IKeycloakUserInfo;
 import com.base.util.DateUtil;
 import com.querydsl.core.dml.UpdateClause;
@@ -15,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+
+import java.util.Date;
 
 /**
  * Repository base with support querydsl.

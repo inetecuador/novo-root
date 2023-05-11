@@ -3,8 +3,6 @@ package com.base.service;
 import com.base.common.IBaseService;
 import com.base.entity.PersonEntity;
 import com.base.vo.ContratoTitularDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
 

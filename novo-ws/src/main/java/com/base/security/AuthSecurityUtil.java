@@ -1,11 +1,12 @@
 package com.base.security;
 
-import java.security.Principal;
 import com.base.vo.UserVo;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.representations.AccessToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.security.Principal;
 
 /**
  * AuthSecurityUtil.

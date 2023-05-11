@@ -32,7 +32,7 @@ dependencies {
 
     compile 'org.springframework.data:spring-data-commons'
     implementation 'org.apache.commons:commons-lang3'
-    implementation 'org.hibernate:hibernate-annotations'
+    //implementation 'org.hibernate:hibernate-annotations'
     implementation 'commons-beanutils:commons-beanutils'
 
 
