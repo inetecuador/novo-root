@@ -21,4 +21,11 @@ public interface IPreexistenciaRepository extends IQueryDslBaseRepository<Person
      */
     List<PreexistenciaDTO> prexistenciasPorAfiliado(Integer numeroContrato, Integer numeroFamilia, Integer numeroAfiliado);
 
+    /**
+     * Find persons active list.
+     *
+     * @return An array of persons
+     */
+    List<PreexistenciaDTO> prexistenciasPorAfiliado(Long afiliacionId);
+
 }

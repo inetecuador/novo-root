@@ -10,9 +10,11 @@ server:
 keycloak:
   enabled: true
   bearer-only: true
+  #auth-server-url: https://portal.ecuasanitas.com/auth-test
+  #desarrollo externo
+  #auth-server-url: https://portal.ecuasanitas.com/auth-test
+  #desarrollo interno
   auth-server-url: http://192.168.40.151:8080/auth
-  #desarrollo
-  #auth-server-url: http://192.168.40.151:8080/auth
 
   #resource: e-voucher-client-core
   #resource: BASE-WEB

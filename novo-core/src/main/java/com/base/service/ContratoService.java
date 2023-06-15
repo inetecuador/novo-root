@@ -67,7 +67,8 @@ public class ContratoService extends BaseService<PersonEntity, IContratoReposito
             contratoTitularDTO.setTitularDTO(titularDTO);
             contratoTitularDTO.setAfiliados(this.afiliadoRepository.afiliadosPorContrato(numeroDocumento, contratoTitularDTO.getNumeroContrato()));
             for (AfiliadoPrexistenciaDTO afiliado : contratoTitularDTO.getAfiliados()) {
-                afiliado.setPreexistencias(this.preexistenciaRepository.prexistenciasPorAfiliado(contratoTitularDTO.getNumeroContrato(), afiliado.getNumeroFamilia(), afiliado.getNumeroAfiliado()));
+                // antes afiliado.getNumeroAfiliado()
+                afiliado.setPreexistencias(this.preexistenciaRepository.prexistenciasPorAfiliado(afiliado.getAfiliacionId()));
             }
         }
         return contratoTitularDTOS;

@@ -28,6 +28,12 @@ public class ContratoTitularDTO {
     @JsonProperty("Producto")
     private String producto;
 
+    @JsonProperty("Vademecum")
+    private String nombreVademecum;
+
+    @JsonProperty("TipoVademecum")
+    private String tipoVademecum;
+
     @JsonProperty("Numero")
     private int numeroContrato;
 
@@ -63,6 +69,12 @@ public class ContratoTitularDTO {
 
     @JsonProperty("DeducibleTotal")
     private BigDecimal deducibleTotal;
+
+    @JsonProperty("TieneImpedimento")
+    private Boolean tieneImpedimento;
+
+    @JsonProperty("MotivoImpedimento")
+    private String motivoImpedimento;
 
     @JsonProperty("EsMoroso")
     private Boolean esMoroso;

@@ -55,21 +55,25 @@ public class ContratoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
                 + "		WHEN CONTRATO.SUCURSAL_ID = 3300825 THEN 'COSTA' " // Machala
                 + "		ELSE '' END) AS REGION,"
                 // 1CONTRATO.PRODUCTO, 2AFILIACION.NUMEROCONTRATO,
-                + "		CONTRATO.PRODUCTO, AFILIACION.NUMEROCONTRATO,"
+                + "	CONTRATO.PRODUCTO, AFILIACION.NUMEROCONTRATO,"
                 // 3PLANSALUD.CODIGOPLAN, 4CONTRATO.ESTADO,  5 PLANSALUD.NOMBRE AS PLANMEDICO NombrePlan
-                + "		PLANSALUD.CODIGOPLAN, CONTRATO.ESTADO, PLANSALUD.NOMBRE AS PLANMEDICO,"
+                + "	PLANSALUD.CODIGOPLAN, CONTRATO.ESTADO, PLANSALUD.NOMBRE AS PLANMEDICO,"
                 // 6PLANESPECIFICO.MONTOCONTRATADO
-                + "		PLANESPECIFICO.MONTOCONTRATADO,"
+                + "	PLANESPECIFICO.MONTOCONTRATADO,"
                 // 7CONTRATO.FECHAINICIO
-                + "		TO_CHAR(CONTRATO.FECHAINICIO,'dd/MM/yyyy') AS FECHAINICIOCONTRATO,"
+                + "	TO_CHAR(CONTRATO.FECHAINICIO,'dd/MM/yyyy') AS FECHAINICIOCONTRATO,"
                 // 8CONTRATO.FECHAVENCIMIENTO
-                + "		TO_CHAR(CONTRATO.FECHAVENCIMIENTO,'dd/MM/yyyy') AS FECHAVENCIMIENTO,"
+                + "	TO_CHAR(CONTRATO.FECHAVENCIMIENTO,'dd/MM/yyyy') AS FECHAVENCIMIENTO,"
                 // 9BRANCH.NAME AS NOMBRESUCURSALCONTRATO
-                + "		BRANCH.NAME AS NOMBRESUCURSALCONTRATO,"
+                + "	BRANCH.NAME AS NOMBRESUCURSALCONTRATO,"
                 // 10BRANCH.CODIGO AS CODIGOSUCURSALCONTRATO
-                + "		BRANCH.CODIGO AS CODIGOSUCURSALCONTRATO,"
+                + "	BRANCH.CODIGO AS CODIGOSUCURSALCONTRATO,"
                 // 11CONTRATO.TIPO AS CONTRATOTIPO NombreLista
-                + "		CONTRATO.TIPO AS CONTRATOTIPO"
+                + "	CONTRATO.TIPO AS CONTRATOTIPO,"
+                // 12CONFIGURACIONMEDICINAS.NOMBREVADEMECUM
+                + " (SELECT CONFIGURACIONMEDICINAS.NOMBREVADEMECUM FROM CONFIGURACIONMEDICINAS WHERE PLANESPECIFICO.CONFIGURACIONMEDICINAS_ID = CONFIGURACIONMEDICINAS.ID) NOMBREVADEMECUM,"
+                // 13FN_VALIDACONTRATO_INCONTRATO
+                + " FN_VALIDACONTRATO_INCONTRATO(CONTRATO.NUMERO) AS VALIDACONTRATOINCONTRATO"
                 + " FROM CONTRATO"
                 + " INNER JOIN PLANCONTRATO ON PLANCONTRATO.CONTRATO_ID = CONTRATO.ID"
                 + " INNER JOIN PLANSALUD ON PLANCONTRATO.PLANESPECIFICO_ID = PLANSALUD.ID"
@@ -109,7 +113,7 @@ public class ContratoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
                 // + " AFILIACION.NUMEROCONTRATO = :numContrato AND"
                 // + " AFILIACION.NUMEROFAMILIA = :codFamilia AND"
                 // + " AFILIACION.NUMERO = :numAfiliacion AND"
-                + " CONTRATO.ESTADO = 'A' AND AFILIACION.ESTADO = 'ACTIVO' AND"
+                + " CONTRATO.ESTADO IN ('A','N') AND AFILIACION.ESTADO = 'ACTIVO' AND"
                 + " PLANCONTRATO.FECHAVIGENCIA = QUERYMAXIMAFECHA(AFILIACION.NUMEROCONTRATO, AFILIACION.NUMEROFAMILIA, AFILIACION.NUMERO)";
         Query query =  this.getEntityManager().createNativeQuery(sqlString);
         query.setParameter("valCedula", titularDTO.getIdentificacion());
@@ -142,6 +146,11 @@ public class ContratoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
             contratoTitularDTO.setRegion(contratoTitular[0].toString().trim());
             // 1CONTRATO.PRODUCTO
             contratoTitularDTO.setProducto(contratoTitular[1].toString().trim());
+
+            // 12CONFIGURACIONMEDICINAS.NOMBREVADEMECUM
+            contratoTitularDTO.setNombreVademecum(null != contratoTitular[12] ? contratoTitular[12].toString().trim() : "");
+            contratoTitularDTO.setTipoVademecum(null != contratoTitular[12] ? contratoTitular[12].toString().trim() : "");
+
             // 2AFILIACION.NUMEROCONTRATO
             contratoTitularDTO.setNumeroContrato(Integer.parseInt(contratoTitular[2].toString().trim()));
             // 3PLANSALUD.CODIGOPLAN,
@@ -159,6 +168,10 @@ public class ContratoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
             contratoTitularDTO.setMontoContratado(new BigDecimal(contratoTitular[6].toString().trim()));
             contratoTitularDTO.setNivel(0);
             contratoTitularDTO.setDeducibleTotal(new BigDecimal(0));
+            // 13FN_VALIDACONTRATO_INCONTRATO
+            contratoTitularDTO.setTieneImpedimento(!"SERVICIO".equals(contratoTitular[13].toString().trim()));
+            contratoTitularDTO.setMotivoImpedimento(contratoTitular[13].toString().trim());
+
             contratoTitularDTO.setEsMoroso(false);
             // 5PLANSALUD.NOMBRE AS PLANMEDICO NombrePlan
             contratoTitularDTO.setNombreComercialPlan(contratoTitular[5].toString().trim());

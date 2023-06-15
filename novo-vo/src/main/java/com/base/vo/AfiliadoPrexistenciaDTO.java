@@ -22,7 +22,7 @@ import java.util.List;
 public class AfiliadoPrexistenciaDTO {
 
     @JsonProperty("NumeroPersona")
-    private Integer numeroAfiliado;
+    private Long afiliacionId;
 
     @JsonProperty("RelacionDependiente")
     private String nombreParentesco;
@@ -78,12 +78,4 @@ public class AfiliadoPrexistenciaDTO {
     @JsonProperty("Maternidad")
     private Boolean maternidad;
 
-    @JsonProperty("TieneImpedimento")
-    private Boolean tieneImpedimento;
-
-    @JsonProperty("MotivoImpedimento")
-    private String motivoImpedimento;
-
-    @JsonProperty("numeroFamilia")
-    private Integer numeroFamilia;
 }

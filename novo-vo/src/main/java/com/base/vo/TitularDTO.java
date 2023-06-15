@@ -18,9 +18,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TitularDTO {
 
-    // numero familia FAMILIA.NUMERO
+    // no puede ir afilaicon A.ID ni FAMILIA.NUMERO por que el titular puede ser que no sea beneficiario solo sus familiares
+    // 9E.ID = F.TITULAR_ID  antes A.ID AS AFILIACIONID A.NUMERO AS NUMEROAFILIACION antes A.ID AS AFILIACIONID
     @JsonProperty("Numero")
-    private Integer numero;
+    private Long entityId;
 
     @JsonProperty("TipoDocumento")
     private String tipoDocumento;

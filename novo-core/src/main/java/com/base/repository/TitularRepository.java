@@ -83,8 +83,8 @@ public class TitularRepository extends JPAQueryDslBaseRepository<PersonEntity> i
                 // 5E.DOCUMENTTYPE 6BIRTHDATE 7PERSON.GENDER 8E.NAME
                 + " PERSON.SECONDLASTNAME, E.DOCUMENTTYPE, TO_CHAR(PERSON.BIRTHDATE,'dd/MM/yyyy') AS BIRTHDATE, " //
                 + "	PERSON.GENDER, E.NAME,"
-                // 9F.NUMERO AS NUMEROAFILIACION
-                + "	A.NUMERO AS NUMEROAFILIACION"
+                // 9E.ID o F.TITULAR_ID  antes A.ID AS AFILIACIONID A.NUMERO AS NUMEROAFILIACION
+                + "	E.ID AS TITULARID"
                 + " FROM AFILIACION A, FAMILIA F,  ENTITY E, CONTRATO C, TIPOAFILIADO TA, PERSON" //
                 + " WHERE A.NUMEROFAMILIA = F.NUMERO" //
                 + " AND F.TITULAR_ID = E.ID" //
@@ -122,8 +122,8 @@ public class TitularRepository extends JPAQueryDslBaseRepository<PersonEntity> i
         String sqlString = "SELECT DISTINCT E.PIN, PERSON.FIRSTNAME, PERSON.MIDDLENAME, PERSON.LASTNAME,"
                 + " PERSON.SECONDLASTNAME, E.DOCUMENTTYPE, TO_CHAR(PERSON.BIRTHDATE,'dd/MM/yyyy') AS BIRTHDATE, "
                 + "	PERSON.GENDER, E.NAME,"
-                // 9F.NUMERO AS NUMEROAFILIACION
-                + "	A.NUMERO AS NUMEROAFILIACION"
+                // 9E.ID o F.TITULAR_ID  antes A.ID AS AFILIACIONID A.NUMERO AS NUMEROAFILIACION
+                + "	E.ID AS TITULARID"
                 + " FROM AFILIACION A, CONTRATO C,  FAMILIA F,  ENTITY E, TIPOAFILIADO TA, PERSON"
                 + " WHERE A.NUMEROFAMILIA = F.NUMERO "
                 + " AND F.TITULAR_ID = E.ID "
@@ -166,8 +166,11 @@ public class TitularRepository extends JPAQueryDslBaseRepository<PersonEntity> i
         titularOBJ.setGenero(results.get(0)[7].toString().trim());
         // 8ENTITY.NAME
         titularOBJ.setNombreTitular(results.get(0)[8].toString().trim());
-        // 9F.NUMERO AS NUMEROAFILIACION Titular Numero
-        titularOBJ.setNumero(Integer.parseInt(results.get(0)[9].toString().trim()));
+        // 9 Titular Numero antes A.NUMERO AS NUMEROAFILIACION
+        // 9 Titular Numero antes A.NUMERO AS NUMEROAFILIACION
+        // 9E.ID = F.TITULAR_ID  antes A.ID AS AFILIACIONID A.NUMERO AS NUMEROAFILIACION antes A.ID AS AFILIACIONID
+        // no puede ir afilaicon A.ID por que el titular puede ser que no sea beneficiario solo sus familiares
+        titularOBJ.setEntityId(Long.parseLong(results.get(0)[9].toString().trim()));
         return titularOBJ;
     }
 }

@@ -45,8 +45,8 @@ public class AfiliadoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
     public List<AfiliadoPrexistenciaDTO> afiliadosPorContrato(String numeroDocumento, Integer numeroContrato) {
         List<AfiliadoPrexistenciaDTO> afiliadosPorContrato = new ArrayList<>();
         String sqlString = "SELECT"
-                // 0AFILIACION.NUMERO, 1UPPER(TIPOAFILIADO.NOMBRE) AS NOMBREPARENTESCO
-                + " AFILIACION.NUMERO, UPPER(TIPOAFILIADO.NOMBRE) AS NOMBREPARENTESCO,"
+                // 0AFILIACION.ID, 1UPPER(TIPOAFILIADO.NOMBRE) AS NOMBREPARENTESCO
+                + " AFILIACION.ID, UPPER(TIPOAFILIADO.NOMBRE) AS NOMBREPARENTESCO,"
                 // 2PERSON.FIRSTNAME, 3PERSON.MIDDLENAME, 4PERSON.LASTNAME, 5PERSON.SECONDLASTNAME,
                 + "	PERSON.FIRSTNAME, PERSON.MIDDLENAME, PERSON.LASTNAME, PERSON.SECONDLASTNAME,"
                 // 6PERSON.GENDER, 7ENTITY.DOCUMENTTYPE, 8ENTITY.PIN, 9TO_CHAR(PERSON.BIRTHDATE,'dd/MM/yyyy') AS BIRTHDATE
@@ -56,8 +56,8 @@ public class AfiliadoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
                 // 11AFILIACION.FECHACAPTURA < AFILIACION.FECHAINGRESO THEN AFILIACION.FECHACAPTURA AS FECHAINCLUSION
                 + "	TO_CHAR(CASE WHEN AFILIACION.FECHACAPTURA < AFILIACION.FECHAINGRESO THEN AFILIACION.FECHACAPTURA ELSE AFILIACION.FECHAINGRESO END,'dd/MM/yyyy') AS FECHAINCLUSION,"
                 // 12AFILIACION.NUMEROFAMILIA
-                + "	AFILIACION.NUMEROFAMILIA,"
-                // 13FN_VALIDACONTRATO
+                // + "	AFILIACION.NUMEROFAMILIA,"
+                // 12FN_VALIDACONTRATO
                 + " FN_VALIDACONTRATO(:numContrato, AFILIACION.NUMEROFAMILIA, AFILIACION.NUMERO) AS VALIDACONTRATO"
                 + " FROM CONTRATO"
                 + " INNER JOIN PLANCONTRATO ON PLANCONTRATO.CONTRATO_ID = CONTRATO.ID"
@@ -115,9 +115,11 @@ public class AfiliadoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
         List<AfiliadoPrexistenciaDTO> afiliadosPorContrato = new ArrayList<>();
         for (Object[] afiliadoResults : results) {
             AfiliadoPrexistenciaDTO afiliadoPrexistenciaDTO = new AfiliadoPrexistenciaDTO();
-            // 0AFILIACION.NUMERO usuario numUsuario numeroAfiliado
-            // NumeroPersona
-            afiliadoPrexistenciaDTO.setNumeroAfiliado(Integer.parseInt(afiliadoResults[0].toString().trim()));
+            // 0AFILIACION.ID usuario numUsuario numeroAfiliado
+            // mascara NumeroPersona
+            afiliadoPrexistenciaDTO.setAfiliacionId(Long.parseLong(afiliadoResults[0].toString().trim()));
+            // antes afiliadoPrexistenciaDTO.setNumeroAfiliado(Integer.parseInt(afiliadoResults[0].toString().trim()));
+
             // 1UPPER(TIPOAFILIADO.NOMBRE) AS NOMBREPARENTESCO
             afiliadoPrexistenciaDTO.setNombreParentesco(afiliadoResults[1].toString().trim());
             // 2PERSON.FIRSTNAME
@@ -145,22 +147,18 @@ public class AfiliadoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
             afiliadoPrexistenciaDTO.setFechaInclusion(afiliadoResults[11].toString().trim());
             afiliadoPrexistenciaDTO.setDeducibleCubierto(new BigDecimal(0));
             // 12AFILIACION.NUMEROFAMILIA
-            afiliadoPrexistenciaDTO.setNumeroFamilia(Integer.parseInt(afiliadoResults[12].toString().trim()));
+            // afiliadoPrexistenciaDTO.setNumeroFamilia(Integer.parseInt(afiliadoResults[12].toString().trim()));
 
-            afiliadoPrexistenciaDTO.setMotivoImpedimento(afiliadoResults[13].toString().trim());
-            afiliadoPrexistenciaDTO.setTieneImpedimento("SERVICIO".equals(afiliadoResults[13].toString().trim()));
-
-            afiliadoPrexistenciaDTO.setMotivoImpedimento(afiliadoResults[13].toString().trim());
-            afiliadoPrexistenciaDTO.setMotivoImpedimento(afiliadoResults[13].toString().trim());
-            // (Integer numContrato, Integer numFamilia, Integer, numeroUsuario
-            afiliadoPrexistenciaDTO.setEnCarencia(this.enCarenciaBnf(numeroContrato, afiliadoPrexistenciaDTO.getNumeroFamilia(), afiliadoPrexistenciaDTO.getNumeroAfiliado()));
+            // Long afiliacionId (antes Integer numContrato, Integer numFamilia,Integer numeroUsuario)
+            afiliadoPrexistenciaDTO.setEnCarencia(this.enCarenciaBnf(afiliadoPrexistenciaDTO.getAfiliacionId()));
 
             afiliadoPrexistenciaDTO.setEnCarenciaHospitalaria(afiliadoPrexistenciaDTO.getEnCarencia());
             afiliadoPrexistenciaDTO.setDiasFinCarencia(this.diasFinCarenciaBnf(afiliadoPrexistenciaDTO.getFechaInclusion(), afiliadoPrexistenciaDTO.getEnCarencia()));
 
             afiliadoPrexistenciaDTO.setDiasFinCarenciaHospitalaria(0);
             afiliadoPrexistenciaDTO.setBeneficioOda(false);
-            afiliadoPrexistenciaDTO.setObservaciones("");
+            // 12FN_VALIDACONTRATO
+            afiliadoPrexistenciaDTO.setObservaciones(afiliadoResults[12].toString().trim());
             afiliadosPorContrato.add(afiliadoPrexistenciaDTO);
         }
         return afiliadosPorContrato;
@@ -182,6 +180,22 @@ public class AfiliadoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
         }
     }
 
+    /**
+     * @param afiliacionId antes Integer numeroUsuario
+     * @return
+     */
+    private Boolean enCarenciaBnf(Long afiliacionId) {
+        Date now = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String varCita = dateFormat.format(now);
+        if ("S".equals(this.validaCarencia(varCita, afiliacionId))) {
+            // SIN CARENCIA
+            return false;
+        } else {
+            // No cumple periodo de carencia // CARENCIA 30 DIAS
+            return true;
+        }
+    }
     private Boolean enCarenciaBnf(Integer numeroContrato, Integer numeroFamilia, Integer numeroUsuario) {
         Date now = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -195,6 +209,33 @@ public class AfiliadoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
         }
     }
 
+    /*deberia estar en afiliacion AFILIACION.TIPOCARENCIA*/
+    /**
+     *
+     * @param varCita
+     * @param afiliacionId
+     * @return
+     */
+    public String validaCarencia(String varCita, Long afiliacionId) {
+        String aplica = "X";
+        if ("SIN_CARENCIA".equals(this.tipoCarencia(afiliacionId))) {
+            aplica = "S";
+        } else {
+            String sqlString = "SELECT distinct FN_CARENCIA(CASE WHEN afiliacion.fechacaptura <= AFILIACION.Fechaingreso then afiliacion.fechacaptura else AFILIACION.Fechaingreso end + 30, TO_DATE(:varCita,'YYYY-MM-DD')) RESULTADO "
+                    + "FROM CONTRATO "
+                    + "INNER JOIN AFILIACION ON CONTRATO.NUMERO = AFILIACION.NUMEROCONTRATO "
+                    + "INNER JOIN PLANCONTRATO ON PLANCONTRATO.CONTRATO_ID = CONTRATO.ID "
+                    + "WHERE "
+                    + "  AFILIACION.ID = :afiliacionId AND "
+                    + "  PLANCONTRATO.FECHAVIGENCIA = QUERYMAXIMAFECHA(AFILIACION.NUMEROCONTRATO, AFILIACION.NUMEROFAMILIA, AFILIACION.NUMERO)";
+            Query query = this.getEntityManager().createNativeQuery(sqlString);
+            query.setParameter("varCita", varCita);
+            query.setParameter("afiliacionId", afiliacionId);
+            Object result = query.getSingleResult();
+            aplica = (String) (result == null ? "" : result);
+        }
+        return aplica;
+    }
     /*deberia estar en afiliacion AFILIACION.TIPOCARENCIA*/
     public String validaCarencia(String varCita, Integer numContrato, Integer numFamilia, Integer numUsuario) {
         String aplica = "X";
@@ -218,6 +259,27 @@ public class AfiliadoRepository extends JPAQueryDslBaseRepository<PersonEntity> 
             aplica = (String) (result == null ? "" : result);
         }
         return aplica;
+    }
+
+    /**
+     *
+     * @param afiliacionId antes Integer numUsuario
+     * @return
+     */
+    private String tipoCarencia(Long afiliacionId) {
+        String tipoCarencia = "";
+        List<Object> results = new ArrayList<>();
+        String sqlString = "SELECT distinct AFILIACION.TIPOCARENCIA FROM CONTRATO "
+                + "INNER JOIN AFILIACION ON CONTRATO.NUMERO = AFILIACION.NUMEROCONTRATO " + "INNER JOIN PLANCONTRATO ON PLANCONTRATO.CONTRATO_ID = CONTRATO.ID "
+                + "WHERE AFILIACION.ID = :afiliacionId AND "
+                + " PLANCONTRATO.FECHAVIGENCIA = QUERYMAXIMAFECHA(AFILIACION.NUMEROCONTRATO, AFILIACION.NUMEROFAMILIA, AFILIACION.NUMERO)";
+        Query query = this.getEntityManager().createNativeQuery(sqlString);
+        query.setParameter("afiliacionId", afiliacionId);
+        results = query.getResultList();
+        if (!results.isEmpty()) {
+            tipoCarencia = results.get(0).toString();
+        }
+        return tipoCarencia;
     }
 
     /*deberia estar en afiliacion AFILIACION.TIPOCARENCIA*/
