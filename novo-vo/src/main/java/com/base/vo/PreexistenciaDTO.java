@@ -28,6 +28,6 @@ public class PreexistenciaDTO {
     private String fechaInicio;
 
     @JsonProperty("estado")
-    private String codigo;
+    private Boolean estado;
 
 }

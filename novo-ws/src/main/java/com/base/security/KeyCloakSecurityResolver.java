@@ -1,5 +1,8 @@
 package com.base.security;
 
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTParser;
+import org.apache.commons.lang3.StringUtils;
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
@@ -32,6 +35,22 @@ public class KeyCloakSecurityResolver implements KeycloakConfigResolver {
             return keycloakDeployment;
         }
         keycloakDeployment = KeycloakDeploymentBuilder.build(adapterConfig);
+        System.out.println("getRealm: "+keycloakDeployment.getRealm());
+        System.out.println("getTokenUrl: "+keycloakDeployment.getTokenUrl());
+
+        try {
+            String token = request.getHeader("Authorization");
+            if (StringUtils.isNotBlank(token)) {
+                System.out.println("TOKEN: "+token);
+                token = token.substring("Bearer".length() + 1);
+                JWT jwt = JWTParser.parse(token);
+                String issuer= jwt.getJWTClaimsSet().getIssuer();
+                System.out.println("issuer: "+issuer);
+            }
+        } catch (Exception ex) {
+        }
+
+
         return keycloakDeployment;
     }
 

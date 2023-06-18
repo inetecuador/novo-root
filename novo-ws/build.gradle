@@ -43,6 +43,9 @@ dependencies {
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'io.jsonwebtoken:jjwt'
+    implementation("org.keycloak:keycloak-spring-boot-starter")
+    implementation("org.keycloak:keycloak-admin-client")
+    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt'
 
     // Documentation API
     implementation 'org.springdoc:springdoc-openapi-ui'

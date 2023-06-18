@@ -95,5 +95,19 @@ dependencyManagement {
             entry 'junit-jupiter-engine'
         }
         //dependency("javax.servlet:javax.servlet-api:4.0.1")
+
+        dependencySet(group:'org.keycloak', version: '17.0.1') {
+            entry 'keycloak-core'
+            entry 'keycloak-server-spi'
+            entry 'keycloak-spring-boot-2-adapter'
+            entry 'keycloak-spring-boot-adapter'
+            entry 'keycloak-wildfly-adapter'
+            entry 'keycloak-tomcat8-adapter'
+            entry 'keycloak-adapter-spi'
+            entry 'keycloak-spring-boot-starter'
+            entry 'keycloak-spring-security-adapter'
+            entry 'keycloak-admin-client'
+        }
+        dependency('com.nimbusds:nimbus-jose-jwt:9.31')
     }
 }

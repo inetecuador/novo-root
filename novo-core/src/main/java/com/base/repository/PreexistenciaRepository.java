@@ -204,7 +204,7 @@ public class PreexistenciaRepository extends JPAQueryDslBaseRepository<PersonEnt
             // 2FECHAINICIO
             preexistenciaDTO.setFechaInicio(preexistenciaResult[2].toString().trim());
             // 3ESTADO
-            preexistenciaDTO.setCodigo(preexistenciaResult[3].toString().trim());
+            preexistenciaDTO.setEstado("ACTIVO".equals(preexistenciaResult[3].toString().trim()));
             // 4CUBRE
             // preexistenciaDTO.setCubre(preexistenciaResult[4].toString().trim());
             preexistenciaDTOS.add(preexistenciaDTO);
